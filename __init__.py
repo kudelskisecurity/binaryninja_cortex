@@ -1,5 +1,5 @@
 # Copyright 2018 Nagravision SA
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -7,9 +7,9 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-# 
+#
 #   http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -26,6 +26,10 @@ from binaryninja.interaction import get_open_filename_input, get_choice_input
 
 import struct
 import importlib
+import sys
+
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
 
 class CortexView(BinaryView):
     name = "CortexFirmware"
@@ -93,7 +97,7 @@ class CortexView(BinaryView):
 
         #SP_VALUE is a data pointer
         self.define_auto_symbol_and_var_or_function(
-                Symbol(SymbolType.DataSymbol, 
+                Symbol(SymbolType.DataSymbol,
                     mcu.ROM_OFF,
                     mcu.IRQ[0]),
                 Type.pointer(self.arch, Type.void(), const=True),
@@ -105,8 +109,8 @@ class CortexView(BinaryView):
         #All other vectory are function pointers
         for i in range(1, len(mcu.IRQ)):
             self.define_auto_symbol_and_var_or_function(
-                    Symbol(SymbolType.DataSymbol, 
-                        mcu.ROM_OFF+(4*i), 
+                    Symbol(SymbolType.DataSymbol,
+                        mcu.ROM_OFF+(4*i),
                         mcu.IRQ[i]),
                     Type.pointer(self.arch, Type.void(), const=True),
                     self.platform)
@@ -124,16 +128,24 @@ class CortexView(BinaryView):
     def is_valid_for_data(self, data):
         #Read two DWORDS
         ivt = data.read(0, 8)
-        if ord(ivt[3])>0x20:
-            #SP value should be in SRAM (max 0x20......)
-            return False
-        if ord(ivt[7])>0x08:
-            #Reset vector should be in flash (max 0x08......)
-            return False
+        if PY2:
+            if ord(ivt[3])>0x20:
+                #SP value should be in SRAM (max 0x20......)
+                return False
+            if ord(ivt[7])>0x08:
+                #Reset vector should be in flash (max 0x08......)
+                return False
+        else:
+            if ivt[3]>0x20:
+                #SP value should be in SRAM (max 0x20......)
+                return False
+            if ivt[7]>0x08:
+                #Reset vector should be in flash (max 0x08......)
+                return False
         return True
 
     def perform_get_entry_point(self):
         return self.symbols['f_RESET_IRQ'].address
-        
+
 
 CortexView.register()
