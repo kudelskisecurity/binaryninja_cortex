@@ -1,25 +1,24 @@
 {
-	"plugin": {
-		"name": "Cortex-M firmware Plugin",
-		"type": ["binaryview"],
-		"api": "python2",
-		"description": "A plugin to load Cortex-based MCU firmwares.",
-		"longdescription": "This plugin loads MCU binary dumps and fills the interrupt vector tables to kickstart the reversing process.\n\nIt supports multiple MCUs, based on libopencm3 (https://github.com/libopencm3/libopencm3/). The *platforms/gen.sh* file is used to generate the platform files from an existing libopencm3 installation.",
-		"license": {
-			"name": "Apache 2.0",
-			"text": "Copyright 2018 Nagravision SA\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License."
-		},
-		"dependencies": {
-			"pip": [],
-			"apt": [],
-			"installers": [],
-			"other": []
-		},
-		"version": "1.0 alpha",
-		"author": "Nagravision SA",
-		"minimumBinaryNinjaVersion": {
-			"dev": "1.0.dev-576",
-			"release": "9999"
-		}
-	}
+	"pluginmetadataversion": 2,
+	"name": "Cortex-M firmware Plugin",
+	"type": ["binaryview"],
+	"api": ["python2", "python3"],
+    "description": "A plugin to load Cortex-based MCU firmwares.",
+    "longdescription": "This plugin loads MCU binary dumps and fills the interrupt vector tables to kickstart the reversing process.\n\nIt supports multiple MCUs, based on libopencm3 (https://github.com/libopencm3/libopencm3/). The *platforms/gen.sh* file is used to generate the platform files from an existing libopencm3 installation.",
+    "license": {
+        "name": "Apache 2.0",
+        "text": "Copyright 2018 Nagravision SA\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License."
+    },
+	"platforms" : ["Darwin", "Linux", "Windows"],
+	"installinstructions" : {
+		"Darwin" : "no special instructions, package manager is recommended",
+		"Linux" : "no special instructions, package manager is recommended",
+		"Windows" : "no special instructions, package manager is recommended"
+	},
+	"dependencies": {
+	},
+	"version": "1.0a",
+	"author": "Vector 35 Inc",
+	"author": "Nagravision SA",
+	"minimumbinaryninjaversion": 576
 }
